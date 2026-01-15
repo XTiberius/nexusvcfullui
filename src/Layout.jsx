@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from './utils';
-import { base44 } from '@/api/base44Client';
+import { localApi } from '@/api/localApi';
 import { 
   Menu, 
   X, 
@@ -27,10 +27,10 @@ export default function Layout({ children, currentPageName }) {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const authed = await base44.auth.isAuthenticated();
+      const authed = await localApi.auth.isAuthenticated();
       setIsAuthenticated(authed);
       if (authed) {
-        const userData = await base44.auth.me();
+        const userData = await localApi.auth.me();
         setUser(userData);
       }
     };
@@ -166,7 +166,7 @@ export default function Layout({ children, currentPageName }) {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem 
-                    onClick={() => base44.auth.logout()}
+                    onClick={() => localApi.auth.logout()}
                     className="cursor-pointer text-zinc-300 hover:text-white"
                   >
                     <LogOut className="w-4 h-4 mr-2" />
@@ -179,7 +179,7 @@ export default function Layout({ children, currentPageName }) {
                 <Button 
                   variant="ghost" 
                   className="text-zinc-400 hover:text-white hover:bg-transparent"
-                  onClick={() => base44.auth.redirectToLogin()}
+                  onClick={() => localApi.auth.redirectToLogin()}
                 >
                   Sign In
                 </Button>
@@ -233,7 +233,7 @@ export default function Layout({ children, currentPageName }) {
                   <Button 
                     variant="ghost" 
                     className="w-full justify-start text-zinc-400"
-                    onClick={() => base44.auth.logout()}
+                    onClick={() => localApi.auth.logout()}
                   >
                     <LogOut className="w-4 h-4 mr-2" />
                     Sign Out
@@ -244,7 +244,7 @@ export default function Layout({ children, currentPageName }) {
                   <Button 
                     variant="ghost" 
                     className="w-full text-zinc-400"
-                    onClick={() => base44.auth.redirectToLogin()}
+                    onClick={() => localApi.auth.redirectToLogin()}
                   >
                     Sign In
                   </Button>

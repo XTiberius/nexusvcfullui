@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
+import { localApi } from '@/api/localApi';
 import { motion } from 'framer-motion';
 import { 
   LayoutDashboard,
@@ -20,7 +20,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const userData = await base44.auth.me();
+      const userData = await localApi.auth.me();
       setUser(userData);
     };
     fetchUser();

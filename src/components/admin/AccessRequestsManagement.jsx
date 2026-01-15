@@ -1,5 +1,5 @@
 import React from 'react';
-import { base44 } from '@/api/base44Client';
+import { localApi } from '@/api/localApi';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,11 +10,11 @@ export default function AccessRequestsManagement() {
 
   const { data: requests = [] } = useQuery({
     queryKey: ['accessRequests'],
-    queryFn: () => base44.entities.AccessRequest.list('-created_date', 100),
+    queryFn: () => localApi.entities.AccessRequest.list('-created_date', 100),
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, status }) => base44.entities.AccessRequest.update(id, { status }),
+    mutationFn: ({ id, status }) => localApi.entities.AccessRequest.update(id, { status }),
     onSuccess: () => queryClient.invalidateQueries(['accessRequests']),
   });
 

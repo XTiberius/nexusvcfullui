@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { base44 } from '@/api/base44Client';
+import { localApi } from '@/api/localApi';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,26 +30,26 @@ export default function OffersManagement() {
 
   const { data: investments = [] } = useQuery({
     queryKey: ['investments'],
-    queryFn: () => base44.entities.Investment.list('-created_date', 100),
+    queryFn: () => localApi.entities.Investment.list('-created_date', 100),
   });
 
   const { data: deals = [] } = useQuery({
     queryKey: ['deals'],
-    queryFn: () => base44.entities.Deal.list('-created_date', 100),
+    queryFn: () => localApi.entities.Deal.list('-created_date', 100),
   });
 
   const { data: companies = [] } = useQuery({
     queryKey: ['companies'],
-    queryFn: () => base44.entities.Company.list('-created_date', 100),
+    queryFn: () => localApi.entities.Company.list('-created_date', 100),
   });
 
   const { data: entities = [] } = useQuery({
     queryKey: ['entities'],
-    queryFn: () => base44.entities.Entity.list('-created_date', 200),
+    queryFn: () => localApi.entities.Entity.list('-created_date', 200),
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => base44.entities.Investment.update(id, data),
+    mutationFn: ({ id, data }) => localApi.entities.Investment.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries(['investments']);
       setShowDialog(false);
@@ -90,9 +90,9 @@ export default function OffersManagement() {
 
     setUploadingDoc(true);
     try {
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      const { file_url } = await localApi.integrations.Core.UploadFile({ file });
       const updatedDocs = [...(selectedOffer.documents || []), file_url];
-      await base44.entities.Investment.update(selectedOffer.id, {
+      await localApi.entities.Investment.update(selectedOffer.id, {
         documents: updatedDocs,
       });
       queryClient.invalidateQueries(['investments']);

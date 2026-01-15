@@ -1,5 +1,5 @@
 import React from 'react';
-import { base44 } from '@/api/base44Client';
+import { localApi } from '@/api/localApi';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from "@/components/ui/badge";
 import { DollarSign, TrendingUp, Building2 } from 'lucide-react';
@@ -7,17 +7,17 @@ import { DollarSign, TrendingUp, Building2 } from 'lucide-react';
 export default function InvestmentsManagement() {
   const { data: investments = [] } = useQuery({
     queryKey: ['investments'],
-    queryFn: () => base44.entities.Investment.list('-created_date', 100),
+    queryFn: () => localApi.entities.Investment.list('-created_date', 100),
   });
 
   const { data: deals = [] } = useQuery({
     queryKey: ['deals'],
-    queryFn: () => base44.entities.Deal.list('-created_date', 100),
+    queryFn: () => localApi.entities.Deal.list('-created_date', 100),
   });
 
   const { data: companies = [] } = useQuery({
     queryKey: ['companies'],
-    queryFn: () => base44.entities.Company.list('-created_date', 100),
+    queryFn: () => localApi.entities.Company.list('-created_date', 100),
   });
 
   const getDeal = (dealId) => deals.find(d => d.id === dealId);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { base44 } from '@/api/base44Client';
+import { localApi } from '@/api/localApi';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,21 +44,21 @@ export default function DealsManagement() {
 
   const { data: deals = [] } = useQuery({
     queryKey: ['deals'],
-    queryFn: () => base44.entities.Deal.list('-created_date', 100),
+    queryFn: () => localApi.entities.Deal.list('-created_date', 100),
   });
 
   const { data: companies = [] } = useQuery({
     queryKey: ['companies'],
-    queryFn: () => base44.entities.Company.list('-created_date', 100),
+    queryFn: () => localApi.entities.Company.list('-created_date', 100),
   });
 
   const { data: investments = [] } = useQuery({
     queryKey: ['investments'],
-    queryFn: () => base44.entities.Investment.list('-created_date', 200),
+    queryFn: () => localApi.entities.Investment.list('-created_date', 200),
   });
 
   const createMutation = useMutation({
-    mutationFn: (data) => base44.entities.Deal.create(data),
+    mutationFn: (data) => localApi.entities.Deal.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries(['deals']);
       setShowDialog(false);
@@ -67,7 +67,7 @@ export default function DealsManagement() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => base44.entities.Deal.update(id, data),
+    mutationFn: ({ id, data }) => localApi.entities.Deal.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries(['deals']);
       setShowDialog(false);
@@ -76,7 +76,7 @@ export default function DealsManagement() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => base44.entities.Deal.delete(id),
+    mutationFn: (id) => localApi.entities.Deal.delete(id),
     onSuccess: () => queryClient.invalidateQueries(['deals']),
   });
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../../utils';
-import { base44 } from '@/api/base44Client';
+import { localApi } from '@/api/localApi';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from "@/components/ui/badge";
 import { User, Building2, ChevronDown, ChevronUp, Mail, Shield, ExternalLink } from 'lucide-react';
@@ -11,27 +11,27 @@ export default function UsersManagement() {
 
   const { data: users = [] } = useQuery({
     queryKey: ['users'],
-    queryFn: () => base44.entities.User.list('-created_date', 100),
+    queryFn: () => localApi.entities.User.list('-created_date', 100),
   });
 
   const { data: allEntities = [] } = useQuery({
     queryKey: ['allEntities'],
-    queryFn: () => base44.entities.Entity.list('-created_date', 200),
+    queryFn: () => localApi.entities.Entity.list('-created_date', 200),
   });
 
   const { data: investments = [] } = useQuery({
     queryKey: ['investments'],
-    queryFn: () => base44.entities.Investment.list('-created_date', 200),
+    queryFn: () => localApi.entities.Investment.list('-created_date', 200),
   });
 
   const { data: deals = [] } = useQuery({
     queryKey: ['deals'],
-    queryFn: () => base44.entities.Deal.list('-created_date', 100),
+    queryFn: () => localApi.entities.Deal.list('-created_date', 100),
   });
 
   const { data: companies = [] } = useQuery({
     queryKey: ['companies'],
-    queryFn: () => base44.entities.Company.list('-created_date', 100),
+    queryFn: () => localApi.entities.Company.list('-created_date', 100),
   });
 
   const getUserEntities = (userEmail) => allEntities.filter(e => e.created_by === userEmail);
